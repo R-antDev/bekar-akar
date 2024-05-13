@@ -14,7 +14,7 @@
     <nav class="flex justify-between items-center py-4 border-b border-white/10">
         <div>
             <a href="/">
-                <img class="w-12" src="{{ Vite::asset('resources/images/bekar-akar.svg') }}" alt="Bekar-Akar">
+                <img class="w-16" src="{{ Vite::asset('resources/images/bekar-akar.svg') }}" alt="Bekar-Akar">
             </a>
         </div>
         <div class="space-x-6 font-bold">
@@ -23,12 +23,28 @@
             <a href="">Salaries</a>
             <a href="">Companies</a>
         </div>
-        <div>
-            <a href="">Post a Job</a>
-        </div>
+
+        @auth
+            <div class="space-x-6 font-bold flex items-center">
+                <a href="/jobs/create">Post a Job</a>
+                <form method="post" action="/logout">
+                    @csrf
+                    @method('DELETE')
+                    <button class="px-4 py-2 text-white bg-red-500 rounded-xl hover:bg-red-700 transition-colors duration-300">Log out</button>
+                </form>
+            </div>
+        @endauth
+
+        @guest
+            <div class="space-x-6 font-bold">
+                <a href="/register">Sign up</a>
+                <a href="/login">Log in</a>
+            </div>
+        @endguest
+
     </nav>
 
-    <main class="mt-10 max-w-[986px] mx-auto">
+    <main class="my-10 max-w-[986px] mx-auto">
         {{  $slot }}
     </main>
 </div>
